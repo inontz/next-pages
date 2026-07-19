@@ -7,7 +7,7 @@ export interface Town {
   rigs: Rig[];
 }
 
-export type RigStatus = string;
+export type RigStatus = 'online' | 'offline' | 'syncing' | 'building';
 
 export interface Rig {
   id: string;
@@ -43,9 +43,9 @@ export interface Bead {
   createdAt: string;
 }
 
-export type ConvoyStatus = string;
+export type ConvoyStatus = 'open' | 'in_progress' | 'completed' | 'failed';
 
-export type MergeMode = string;
+export type MergeMode = 'auto' | 'manual' | 'squash';
 
 export interface Convoy {
   id: string;
