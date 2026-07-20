@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Bead, Convoy } from "@/types";
+import type { Bead, Convoy } from "@/types/gastown";
 import { useFlicker, useCycle } from "@/hooks/useSimulation";
 import { Workflow } from "lucide-react";
 
@@ -10,18 +10,20 @@ const beadStatusColor: Record<string, string> = {
 	active: "bg-amber-400",
 	dispatched: "bg-sky-400",
 	committed: "bg-emerald-400",
+	failed: "bg-red-500",
+	closed: "bg-slate-600",
 };
 
 const beads: Bead[] = [
-	{ id: "b1", title: "gt: setup routing", status: "committed", convoys: ["c1"] },
-	{ id: "b2", title: "gt: refine types", status: "active", convoys: ["c1"] },
-	{ id: "b3", title: "gt: add telemetry", status: "dispatched", convoys: ["c2"] },
-	{ id: "b4", title: "gt: deploy preview", status: "pending", convoys: ["c2"] },
+	{ id: "b1", title: "gt: setup routing", description: "Setup routing for the app", status: "committed", convoyId: "c1", createdAt: "2026-07-19T20:01:00Z", updatedAt: "2026-07-19T20:01:00Z" },
+	{ id: "b2", title: "gt: refine types", description: "Refine TypeScript types", status: "active", convoyId: "c1", createdAt: "2026-07-19T20:01:10Z", updatedAt: "2026-07-19T20:01:10Z" },
+	{ id: "b3", title: "gt: add telemetry", description: "Add telemetry tracking", status: "dispatched", convoyId: "c2", createdAt: "2026-07-19T20:01:20Z", updatedAt: "2026-07-19T20:01:20Z" },
+	{ id: "b4", title: "gt: deploy preview", description: "Deploy preview build", status: "pending", convoyId: "c2", createdAt: "2026-07-19T20:01:30Z", updatedAt: "2026-07-19T20:01:30Z" },
 ];
 
 const convoys: Convoy[] = [
-	{ id: "c1", beadIds: ["b1", "b2"], status: "moving" },
-	{ id: "c2", beadIds: ["b3", "b4"], status: "stalled" },
+	{ id: "c1", title: "Core Setup", mergeMode: "squash", beads, status: "in_progress", progress: 50 },
+	{ id: "c2", title: "Feature Work", mergeMode: "auto", beads, status: "failed", progress: 25 },
 ];
 
 const logs = [
@@ -54,22 +56,18 @@ export default function BeadConvoyLog() {
 								<Workflow size={14} className="text-slate-500" />
 								CONVOY {c.id.toUpperCase()}
 							</div>
-							<span className={`inline-block h-2 w-2 rounded-full ${c.status === "moving" ? "bg-emerald-400 animate-pulse" : "bg-amber-400 animate-pulse"}`} />
+							<span className={`inline-block h-2 w-2 rounded-full ${c.status === "in_progress" ? "bg-emerald-400 animate-pulse" : "bg-amber-400 animate-pulse"}`} />
 						</div>
 						<div className="space-y-1.5">
-							{c.beadIds.map((bid) => {
-								const bead = beads.find((b) => b.id === bid);
-								if (!bead) return null;
-								return (
-									<div key={bid} className="flex items-center justify-between">
-										<span className="font-mono text-xs text-slate-300 truncate mr-3">{bead.title}</span>
-										<span className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-slate-400`}>
-											<span className={`inline-block h-1.5 w-1.5 rounded-full ${beadStatusColor[bead.status]} ${active ? "opacity-100" : "opacity-30"}`} />
-											{bead.status}
-										</span>
-									</div>
-								);
-							})}
+							{c.beads.map((bead) => (
+								<div key={bead.id} className="flex items-center justify-between">
+									<span className="font-mono text-xs text-slate-300 truncate mr-3">{bead.title}</span>
+									<span className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-slate-400`}>
+										<span className={`inline-block h-1.5 w-1.5 rounded-full ${beadStatusColor[bead.status]} ${active ? "opacity-100" : "opacity-30"}`} />
+										{bead.status}
+									</span>
+								</div>
+							))}
 						</div>
 					</div>
 				))}

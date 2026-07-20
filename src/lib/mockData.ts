@@ -106,6 +106,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Cedar',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:00Z',
+    updatedAt: '2026-07-19T20:01:00Z',
   },
   {
     id: 'bead-2',
@@ -115,6 +116,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Maple',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:10Z',
+    updatedAt: '2026-07-19T20:01:10Z',
   },
   {
     id: 'bead-3',
@@ -124,6 +126,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Birch',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:20Z',
+    updatedAt: '2026-07-19T20:01:20Z',
   },
   {
     id: 'bead-4',
@@ -133,6 +136,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Maple',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:30Z',
+    updatedAt: '2026-07-19T20:01:30Z',
   },
   {
     id: 'bead-5',
@@ -141,6 +145,7 @@ export const sampleBeads: Bead[] = [
     status: 'pending',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:40Z',
+    updatedAt: '2026-07-19T20:01:40Z',
   },
 ];
 
