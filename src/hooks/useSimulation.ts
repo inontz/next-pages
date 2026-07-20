@@ -1,41 +1,41 @@
-import { useState, useEffect, useRef } from 'react';
+'use client';
 
-export function useIndicatorLight() {
-  const [isOn, setIsOn] = useState(true);
-  const [isFlickering, setIsFlickering] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+import { useState, useEffect, useRef } from 'react';
+import type { Agent } from '@/types/gastown';
+
+const STATUS_CYCLE: Agent['status'][] = ['idle', 'thinking', 'testing', 'merging', 'dispatched', 'committed'];
+
+export function useFlickerLight(): boolean {
+  const [isOn, setIsOn] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    function scheduleNextFlicker() {
-      const delay = Math.floor(Math.random() * 600) + 200;
-      intervalRef.current = setTimeout(() => {
-        setIsFlickering(true);
-        setTimeout(() => {
-          setIsFlickering(false);
-          scheduleNextFlicker();
-        }, 80 + Math.random() * 120);
+    function scheduleNext() {
+      const delay = Math.floor(Math.random() * 1200) + 800;
+      timeoutRef.current = setTimeout(() => {
+        setIsOn((prev) => !prev);
+        scheduleNext();
       }, delay);
     }
 
-    scheduleNextFlicker();
+    scheduleNext();
 
     return () => {
-      if (intervalRef.current) {
-        clearTimeout(intervalRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
   }, []);
 
-  return { isOn, isFlickering };
+  return isOn;
 }
 
-export function useProgressTicker(initial: number, max: number, intervalMs: number = 1000) {
+export function useProgressTick(initial: number, max: number, intervalMs: number): number {
   const [progress, setProgress] = useState(initial);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= max) return prev;
         const increment = Math.floor(Math.random() * 5) + 1;
         return Math.min(prev + increment, max);
       });
@@ -47,18 +47,40 @@ export function useProgressTicker(initial: number, max: number, intervalMs: numb
   return progress;
 }
 
-export function useAgentSubTaskCycle(subTasks: string[], intervalMs: number = 2000) {
-  const [index, setIndex] = useState(0);
+export function useAgentCycle(agents: Agent[], intervalMs: number): Agent[] {
+  const [cycledAgents, setCycledAgents] = useState<Agent[]>(agents);
+  const indexRef = useRef(0);
+  const statusIndexRef = useRef<number[]>(agents.map(() => 0));
 
   useEffect(() => {
-    if (subTasks.length === 0) return;
+    setCycledAgents(agents);
+    indexRef.current = 0;
+    statusIndexRef.current = agents.map(() => 0);
+  }, [agents]);
+
+  useEffect(() => {
+    if (agents.length === 0) return;
 
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % subTasks.length);
+      indexRef.current = (indexRef.current + 1) % agents.length;
+      const targetIndex = indexRef.current;
+      statusIndexRef.current[targetIndex] = (statusIndexRef.current[targetIndex] + 1) % STATUS_CYCLE.length;
+      const newStatus = STATUS_CYCLE[statusIndexRef.current[targetIndex]];
+      setCycledAgents((prev) =>
+        prev.map((agent, idx) =>
+          idx === targetIndex
+            ? {
+                ...agent,
+                status: newStatus,
+                progress: Math.min(Math.max(agent.progress + Math.floor(Math.random() * 20) - 5, 0), 100),
+              }
+            : agent
+        )
+      );
     }, intervalMs);
 
     return () => clearInterval(interval);
-  }, [subTasks, intervalMs]);
+  }, [agents, intervalMs]);
 
-  return subTasks[index] ?? '';
+  return cycledAgents;
 }
