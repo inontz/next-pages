@@ -2,7 +2,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopHeader from "@/components/layout/TopHeader";
 import AgentMeshMonitor from "@/components/widgets/AgentMeshMonitor";
 import BeadConvoyLog from "@/components/widgets/BeadConvoyLog";
-import HomelabTelemetry from "@/components/widgets/HomelabTelemetry";
+import HomelabTelemetry from "@/components/homelab-telemetry";
 import ProjectShowcase from "@/components/widgets/ProjectShowcase";
 
 export default function Home() {
