@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useProgressTick, useFlicker } from "@/hooks/useSimulation";
+import { useProgressTick, useFlickerLight } from "@/hooks/useSimulation";
 
 const nodes = [
 	{ id: "n1", name: "Proxmox", ip: "192.168.1.10" },
@@ -43,10 +43,10 @@ function MiniChart({ color, name }: { color: string; name: string }) {
 }
 
 export default function HomelabTelemetry() {
-	const cpu = useProgressTick(30, 8, 95);
-	const ram = useProgressTick(40, 5, 90);
-	const net = useProgressTick(20, 10, 80);
-	const indicator = useFlicker(900);
+	const cpu = useProgressTick(30, 95, 1200);
+	const ram = useProgressTick(40, 90, 1200);
+	const net = useProgressTick(20, 80, 1200);
+	const indicator = useFlickerLight();
 
 	const cpuColor = cpu > 80 ? "#ef4444" : cpu > 50 ? "#f59e0b" : "#34d399";
 	const ramColor = ram > 80 ? "#ef4444" : ram > 50 ? "#f59e0b" : "#34d399";

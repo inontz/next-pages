@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Bead, Convoy } from "@/types";
-import { useFlicker, useCycle } from "@/hooks/useSimulation";
+import type { Bead, Convoy, Agent } from "@/types";
+import { useFlickerLight, useAgentCycle } from "@/hooks/useSimulation";
 import { Workflow } from "lucide-react";
 
 const beadStatusColor: Record<string, string> = {
@@ -24,24 +24,25 @@ const convoys: Convoy[] = [
 	{ id: "c2", beadIds: ["b3", "b4"], status: "stalled" },
 ];
 
-const logs = [
-	"ToolCall: readFile(src/hooks/useSimulation.ts)",
-	"ToolCall: writeFile(src/components/layout.tsx)",
-	"ToolCall: bash(npm run lint)",
-	"ToolCall: git commit -m 'chore: add types'",
+const cycleAgents: Agent[] = [
+	{ id: "ca1", type: "polecat", name: "Polecat-Alpha", status: "WORKING" },
+	{ id: "ca2", type: "refinery", name: "Refinery", status: "TESTING" },
+	{ id: "ca3", type: "mayor", name: "Mayor", status: "THINKING" },
+	{ id: "ca4", type: "triage", name: "Triage", status: "IDLE" },
 ];
 
 export default function BeadConvoyLog() {
 	const [stream, setStream] = useState<string[]>([]);
-	const active = useFlicker(500);
-	const currentLog = useCycle(logs, 2500);
+	const active = useFlickerLight();
+	const currentAgent = useAgentCycle(cycleAgents, 2500);
 
 	useEffect(() => {
+		const logLine = `> ${currentAgent.name}: ${currentAgent.status}`;
 		const id = setInterval(() => {
-			setStream((prev) => [currentLog, ...prev].slice(0, 6));
+			setStream((prev) => [logLine, ...prev].slice(0, 6));
 		}, 2500);
 		return () => clearInterval(id);
-	}, [currentLog]);
+	}, [currentAgent]);
 
 	return (
 		<section className="rounded border border-slate-800 bg-slate-900/60 p-4">
