@@ -8,7 +8,7 @@ export interface Town {
   updatedAt: string;
 }
 
-export type RigStatus = 'online' | 'offline' | 'syncing' | 'building';
+export type RigStatus = 'online' | 'offline' | 'idle' | 'syncing' | 'building';
 
 export interface Rig {
   id: string;
