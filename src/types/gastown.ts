@@ -5,6 +5,7 @@ export interface Town {
   name: string;
   status: TownStatus;
   rigs: Rig[];
+  updatedAt: string;
 }
 
 export type RigStatus = 'online' | 'offline' | 'syncing' | 'building';
@@ -16,6 +17,7 @@ export interface Rig {
   defaultBranch: string;
   status: RigStatus;
   agents: Agent[];
+  updatedAt: string;
 }
 
 export type AgentRole = 'mayor' | 'polecat' | 'refinery' | 'triage';
@@ -29,6 +31,7 @@ export interface Agent {
   status: AgentStatus;
   progress: number;
   currentTask?: string;
+  updatedAt: string;
 }
 
 export type BeadStatus = 'pending' | 'active' | 'dispatched' | 'committed' | 'closed' | 'failed';
@@ -41,6 +44,7 @@ export interface Bead {
   assignee?: string;
   convoyId?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export type ConvoyStatus = 'open' | 'in_progress' | 'completed' | 'failed';
@@ -54,4 +58,5 @@ export interface Convoy {
   status: ConvoyStatus;
   beads: Bead[];
   progress: number;
+  updatedAt: string;
 }

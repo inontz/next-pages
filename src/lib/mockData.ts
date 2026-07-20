@@ -1,4 +1,4 @@
-import type { Town, Rig, Agent, Bead, Convoy } from '@/types/gastown';
+import type { Town, Rig, Agent, Bead, Convoy } from '@/types';
 
 export const sampleTowns: Town[] = [
   {
@@ -6,24 +6,28 @@ export const sampleTowns: Town[] = [
     name: 'Gastown',
     status: 'active',
     rigs: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'town-2',
     name: 'Hastings',
     status: 'active',
     rigs: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'town-3',
     name: 'Coal Harbour',
     status: 'idle',
     rigs: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'town-4',
     name: 'Yaletown',
     status: 'maintenance',
     rigs: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
 ];
 
@@ -35,6 +39,7 @@ export const sampleRigs: Rig[] = [
     defaultBranch: 'main',
     status: 'online',
     agents: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'rig-2',
@@ -43,6 +48,7 @@ export const sampleRigs: Rig[] = [
     defaultBranch: 'main',
     status: 'building',
     agents: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'rig-3',
@@ -51,6 +57,7 @@ export const sampleRigs: Rig[] = [
     defaultBranch: 'develop',
     status: 'syncing',
     agents: [],
+    updatedAt: '2026-07-20T20:00:00Z',
   },
 ];
 
@@ -62,6 +69,7 @@ export const sampleAgents: Agent[] = [
     status: 'thinking',
     progress: 72,
     currentTask: 'Coordinating convoy dispatch',
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'agent-2',
@@ -70,6 +78,7 @@ export const sampleAgents: Agent[] = [
     status: 'dispatched',
     progress: 45,
     currentTask: 'Building mock data hooks',
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'agent-3',
@@ -78,6 +87,7 @@ export const sampleAgents: Agent[] = [
     status: 'committed',
     progress: 100,
     currentTask: 'Layout shell complete',
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'agent-4',
@@ -86,6 +96,7 @@ export const sampleAgents: Agent[] = [
     status: 'testing',
     progress: 88,
     currentTask: 'Running CI checks',
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'agent-5',
@@ -94,6 +105,7 @@ export const sampleAgents: Agent[] = [
     status: 'idle',
     progress: 0,
     currentTask: 'Awaiting dispatch',
+    updatedAt: '2026-07-20T20:00:00Z',
   },
 ];
 
@@ -106,6 +118,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Cedar',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:00Z',
+    updatedAt: '2026-07-19T20:01:00Z',
   },
   {
     id: 'bead-2',
@@ -115,6 +128,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Maple',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:10Z',
+    updatedAt: '2026-07-19T20:01:10Z',
   },
   {
     id: 'bead-3',
@@ -124,6 +138,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Birch',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:20Z',
+    updatedAt: '2026-07-19T20:01:20Z',
   },
   {
     id: 'bead-4',
@@ -133,6 +148,7 @@ export const sampleBeads: Bead[] = [
     assignee: 'Maple',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:30Z',
+    updatedAt: '2026-07-19T20:01:30Z',
   },
   {
     id: 'bead-5',
@@ -141,6 +157,7 @@ export const sampleBeads: Bead[] = [
     status: 'pending',
     convoyId: 'convoy-1',
     createdAt: '2026-07-19T20:01:40Z',
+    updatedAt: '2026-07-19T20:01:40Z',
   },
 ];
 
@@ -152,6 +169,7 @@ export const sampleConvoys: Convoy[] = [
     status: 'in_progress',
     beads: sampleBeads,
     progress: 38,
+    updatedAt: '2026-07-20T20:00:00Z',
   },
   {
     id: 'convoy-2',
@@ -160,6 +178,7 @@ export const sampleConvoys: Convoy[] = [
     status: 'open',
     beads: [],
     progress: 0,
+    updatedAt: '2026-07-20T20:00:00Z',
   },
 ];
 
