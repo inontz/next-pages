@@ -1,64 +1,43 @@
-import { useState, useEffect, useRef } from 'react';
+"use client";
 
-export function useIndicatorLight() {
-  const [isOn, setIsOn] = useState(true);
-  const [isFlickering, setIsFlickering] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+import { useEffect, useRef, useState } from "react";
 
-  useEffect(() => {
-    function scheduleNextFlicker() {
-      const delay = Math.floor(Math.random() * 600) + 200;
-      intervalRef.current = setTimeout(() => {
-        setIsFlickering(true);
-        setTimeout(() => {
-          setIsFlickering(false);
-          scheduleNextFlicker();
-        }, 80 + Math.random() * 120);
-      }, delay);
-    }
-
-    scheduleNextFlicker();
-
-    return () => {
-      if (intervalRef.current) {
-        clearTimeout(intervalRef.current);
-      }
-    };
-  }, []);
-
-  return { isOn, isFlickering };
+export function useFlicker(speed = 800) {
+	const [on, setOn] = useState(true);
+	useEffect(() => {
+		const id = setInterval(() => setOn((v) => !v), speed);
+		return () => clearInterval(id);
+	}, [speed]);
+	return on;
 }
 
-export function useProgressTicker(initial: number, max: number, intervalMs: number = 1000) {
-  const [progress, setProgress] = useState(initial);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= max) return prev;
-        const increment = Math.floor(Math.random() * 5) + 1;
-        return Math.min(prev + increment, max);
-      });
-    }, intervalMs);
-
-    return () => clearInterval(interval);
-  }, [max, intervalMs]);
-
-  return progress;
+export function useProgressTick(initial = 0, step = 5, max = 100) {
+	const [value, setValue] = useState(initial);
+	useEffect(() => {
+		const id = setInterval(() => {
+			setValue((v) => (v >= max ? initial : v + step));
+		}, 1200);
+		return () => clearInterval(id);
+	}, [initial, step, max]);
+	return value;
 }
 
-export function useAgentSubTaskCycle(subTasks: string[], intervalMs: number = 2000) {
-  const [index, setIndex] = useState(0);
+export function useCycle<T>(items: T[], interval = 3000) {
+	const [idx, setIdx] = useState(0);
+	useEffect(() => {
+		const id = setInterval(() => setIdx((i) => (i + 1) % items.length), interval);
+		return () => clearInterval(id);
+	}, [items, interval]);
+	return items[idx];
+}
 
-  useEffect(() => {
-    if (subTasks.length === 0) return;
-
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % subTasks.length);
-    }, intervalMs);
-
-    return () => clearInterval(interval);
-  }, [subTasks, intervalMs]);
-
-  return subTasks[index] ?? '';
+export function useBangkokTime() {
+	const [time, setTime] = useState(() => new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Bangkok" }));
+	useEffect(() => {
+		const id = setInterval(() => {
+			setTime(new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Bangkok" }));
+		}, 1000);
+		return () => clearInterval(id);
+	}, []);
+	return time;
 }
