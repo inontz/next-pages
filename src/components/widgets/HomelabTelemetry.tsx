@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useProgressTick, useFlicker } from "@/hooks/useSimulation";
 
@@ -9,14 +10,15 @@ const nodes = [
 	{ id: "n3", name: "NAS", ip: "192.168.1.30" },
 ];
 
-function MiniChart({ color }: { color: string }) {
-	const data = Array.from({ length: 12 }, (_, i) => ({ t: i, v: 20 + Math.random() * 60 }));
+function MiniChart({ color, name }: { color: string; name: string }) {
+	const sanitizedColor = color.replace("#", "");
+	const data = useMemo(() => Array.from({ length: 12 }, (_, i) => ({ t: i, v: 20 + Math.random() * 60 })), []);
 	return (
 		<div className="h-12 w-full">
 			<ResponsiveContainer width="100%" height="100%">
 				<AreaChart data={data}>
 					<defs>
-						<linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
+						<linearGradient id={`grad-${name}-${sanitizedColor}`} x1="0" y1="0" x2="0" y2="1">
 							<stop offset="5%" stopColor={color} stopOpacity={0.4} />
 							<stop offset="95%" stopColor={color} stopOpacity={0} />
 						</linearGradient>
@@ -33,7 +35,7 @@ function MiniChart({ color }: { color: string }) {
 						}}
 						labelStyle={{ color: "#94a3b8" }}
 					/>
-					<Area type="monotone" dataKey="v" stroke={color} fill={`url(#grad-${color})`} strokeWidth={1.5} />
+					<Area type="monotone" dataKey="v" stroke={color} fill={`url(#grad-${name}-${sanitizedColor})`} strokeWidth={1.5} />
 				</AreaChart>
 			</ResponsiveContainer>
 		</div>
@@ -69,21 +71,21 @@ export default function HomelabTelemetry() {
 									<span>CPU</span>
 									<span>{Math.round(cpu)}%</span>
 								</div>
-								<MiniChart color={cpuColor} />
+								<MiniChart color={cpuColor} name="cpu" />
 							</div>
 							<div>
 								<div className="flex justify-between font-mono text-[10px] text-slate-500 mb-0.5">
 									<span>RAM</span>
 									<span>{Math.round(ram)}%</span>
 								</div>
-								<MiniChart color={ramColor} />
+								<MiniChart color={ramColor} name="ram" />
 							</div>
 							<div>
 								<div className="flex justify-between font-mono text-[10px] text-slate-500 mb-0.5">
 									<span>NET</span>
 									<span>{Math.round(net)}%</span>
 								</div>
-								<MiniChart color={netColor} />
+								<MiniChart color={netColor} name="net" />
 							</div>
 						</div>
 					</div>

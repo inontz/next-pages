@@ -34,6 +34,33 @@ const statusColor: Record<string, string> = {
 	error: "bg-red-500",
 };
 
+function AgentRow({ agent }: { agent: Agent }) {
+	const max = 5 + Math.floor(Math.random() * 10);
+	const progress = agent.type === "polecat" ? useProgressTick(0, max, 100) : undefined;
+
+	return (
+		<div className="flex items-center justify-between rounded border border-slate-800 bg-slate-950 px-3 py-2">
+			<div className="flex items-center gap-2">
+				{agent.type === "mayor" && <Cpu size={14} className="text-slate-500" />}
+				{agent.type === "polecat" && <Server size={14} className="text-slate-500" />}
+				{agent.type === "refinery" && <AlertTriangle size={14} className="text-slate-500" />}
+				<span className="font-mono text-xs text-slate-300">{agent.name}</span>
+			</div>
+			<div className="flex items-center gap-3">
+				{agent.type === "polecat" && progress !== undefined && (
+					<div className="w-24 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+						<div className="h-full bg-amber-400 transition-all duration-700" style={{ width: `${progress}%` }} />
+					</div>
+				)}
+				<span className={`inline-flex items-center gap-2 font-mono text-xs ${agent.status === "WORKING" ? "text-amber-400" : "text-slate-400"}`}>
+					<span className={`inline-block h-2 w-2 rounded-full ${agent.status === "WORKING" ? "bg-amber-400 animate-pulse" : "bg-slate-500"}`} />
+					{agent.status}
+				</span>
+			</div>
+		</div>
+	);
+}
+
 export default function AgentMeshMonitor() {
 	const indicator = useFlicker(700);
 
@@ -76,30 +103,9 @@ export default function AgentMeshMonitor() {
 			<div className="mt-4">
 				<div className="font-mono text-xs text-slate-500 mb-2">AGENTS</div>
 				<div className="space-y-2">
-					{agents.map((a) => {
-						const progress = a.type === "polecat" ? useProgressTick(0, 5 + Math.floor(Math.random() * 10), 100) : undefined;
-						return (
-							<div key={a.id} className="flex items-center justify-between rounded border border-slate-800 bg-slate-950 px-3 py-2">
-								<div className="flex items-center gap-2">
-									{a.type === "mayor" && <Cpu size={14} className="text-slate-500" />}
-									{a.type === "polecat" && <Server size={14} className="text-slate-500" />}
-									{a.type === "refinery" && <AlertTriangle size={14} className="text-slate-500" />}
-									<span className="font-mono text-xs text-slate-300">{a.name}</span>
-								</div>
-								<div className="flex items-center gap-3">
-									{a.type === "polecat" && progress !== undefined && (
-										<div className="w-24 h-1.5 rounded-full bg-slate-800 overflow-hidden">
-											<div className="h-full bg-amber-400 transition-all duration-700" style={{ width: `${progress}%` }} />
-										</div>
-									)}
-									<span className={`inline-flex items-center gap-2 font-mono text-xs ${a.status === "WORKING" ? "text-amber-400" : "text-slate-400"}`}>
-										<span className={`inline-block h-2 w-2 rounded-full ${a.status === "WORKING" ? "bg-amber-400 animate-pulse" : "bg-slate-500"}`} />
-										{a.status}
-									</span>
-								</div>
-							</div>
-						);
-					})}
+					{agents.map((a) => (
+						<AgentRow key={a.id} agent={a} />
+					))}
 				</div>
 			</div>
 		</section>
