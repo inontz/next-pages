@@ -1,6 +1,7 @@
 {
 	"name": "next-pages",
 	"description": "Build a full-stack web application with Next.js.",
+	"// deploy-fix": "Upgraded @opennextjs/cloudflare to 1.15.1 (fixes duplicate next-env.mjs exports) and next to 16.2.10 (satisfies adapter peerDep floor). Simplified deploy/preview scripts since build is now handled internally.",
 	"cloudflare": {
 		"label": "Next.js Framework Starter",
 		"products": [
@@ -12,10 +13,10 @@
 		"publish": true
 	},
 	"dependencies": {
-		"@opennextjs/cloudflare": "1.14.0",
+		"@opennextjs/cloudflare": "1.15.1",
 		"clsx": "^2.1.1",
 		"lucide-react": "^1.25.0",
-		"next": "16.0.7",
+		"next": "16.2.10",
 		"react": "19.2.1",
 		"react-dom": "19.2.1",
 		"recharts": "^3.9.2",
@@ -28,7 +29,7 @@
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
 		"eslint": "9.39.2",
-		"eslint-config-next": "16.0.7",
+		"eslint-config-next": "16.2.10",
 		"tailwindcss": "4.1.17",
 		"typescript": "5.9.3",
 		"wrangler": "4.88.0"
@@ -38,11 +39,11 @@
 		"build": "next build",
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
 		"check": "npm run build && tsc",
-		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+		"deploy": "opennextjs-cloudflare deploy",
 		"dev": "next dev",
 		"lint": "next lint",
 		"postbuild": "opennextjs-cloudflare build --skipNextBuild",
-		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+		"preview": "opennextjs-cloudflare preview",
 		"start": "next start"
 	}
 }
