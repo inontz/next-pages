@@ -1,6 +1,7 @@
 {
 	"name": "next-pages",
 	"description": "Build a full-stack web application with Next.js.",
+	"// deploy-fix": "Upgraded @opennextjs/cloudflare to 1.15.1 (fixes duplicate next-env.mjs exports) and next to 16.2.10 (satisfies adapter peerDep floor). Simplified deploy/preview scripts since build is now handled internally.",
 	"cloudflare": {
 		"label": "Next.js Framework Starter",
 		"products": [
