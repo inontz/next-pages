@@ -2,7 +2,7 @@
 
 import { Globe, GitBranch, User, Wrench, FlaskConical, AlertTriangle } from 'lucide-react';
 import { mockTowns, mockRigs, mockAgents } from '@/lib/mock-data';
-import { useFlickerLight, useProgressTick } from '@/hooks/useSimulation';
+import { useFlicker, useProgressTick } from '@/hooks/useSimulation';
 
 const statusColors: Record<string, string> = {
   active: 'bg-green-500',
@@ -35,7 +35,7 @@ function formatLastSync(status: string): string {
 }
 
 export default function AgentMeshMonitor() {
-  const flickerOn = useFlickerLight();
+  const flickerOn = useFlicker();
   const polecatProgress = useProgressTick(0, 100, 1500);
 
   const towns = mockTowns;

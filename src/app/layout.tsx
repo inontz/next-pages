@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
+import Layout from "@/components/layout";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+	variable: "--font-jetbrains-mono",
 	subsets: ["latin"],
 });
 
@@ -20,9 +21,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" className="dark">
 			<body
-				className={`${geistMono.variable} font-mono antialiased bg-slate-950 text-slate-300 min-h-screen`}
+				className={`${jetbrainsMono.variable} ${jetbrainsMono.className} antialiased bg-slate-950 text-slate-300 min-h-screen`}
 			>
-				{children}
+				<Layout>{children}</Layout>
 			</body>
 		</html>
 	);
