@@ -1,33 +1,59 @@
-export type Town = {
+export type TownStatus = 'active' | 'idle' | 'maintenance';
+
+export interface Town {
 	id: string;
 	name: string;
-	status: "online" | "offline" | "degraded";
-};
+	status: TownStatus;
+	rigCount: number;
+	rigs?: Rig[];
+}
 
-export type Rig = {
+export type RigStatus = 'online' | 'offline' | 'syncing' | 'building';
+
+export interface Rig {
 	id: string;
 	name: string;
-	repo: string;
-	status: "active" | "idle" | "error";
-};
+	gitUrl: string;
+	defaultBranch: string;
+	status: RigStatus;
+	lastSync: string;
+	agents?: Agent[];
+}
 
-export type Agent = {
+export type AgentRole = 'mayor' | 'polecat' | 'refinery' | 'triage';
+
+export type AgentStatus = 'idle' | 'thinking' | 'testing' | 'merging' | 'dispatched' | 'committed';
+
+export interface Agent {
 	id: string;
-	type: "mayor" | "polecat" | "refinery" | "triage";
 	name: string;
-	status: string;
-	progress?: number;
-};
+	role: AgentRole;
+	status: AgentStatus;
+	progress: number;
+	currentTask?: string;
+}
 
-export type Bead = {
+export type BeadStatus = 'pending' | 'active' | 'dispatched' | 'committed' | 'closed' | 'failed';
+
+export interface Bead {
 	id: string;
 	title: string;
-	status: "pending" | "active" | "dispatched" | "committed";
-	convoys: string[];
-};
+	description: string;
+	status: BeadStatus;
+	assignee?: string;
+	convoyId?: string;
+	createdAt: string;
+}
 
-export type Convoy = {
+export type ConvoyStatus = 'open' | 'in_progress' | 'completed' | 'failed';
+
+export type MergeMode = 'auto' | 'manual' | 'squash';
+
+export interface Convoy {
 	id: string;
-	beadIds: string[];
-	status: "moving" | "stalled" | "complete";
-};
+	title: string;
+	mergeMode: MergeMode;
+	status: ConvoyStatus;
+	beads: Bead[];
+	progress: number;
+}

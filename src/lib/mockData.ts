@@ -1,4 +1,4 @@
-import type { Town, Rig, Agent, Bead, Convoy } from '@/types/gastown';
+import type { Town, Rig, Agent, Bead, Convoy } from '@/types/index';
 
 export const sampleTowns: Town[] = [
   {
